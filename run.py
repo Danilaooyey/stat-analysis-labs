@@ -57,9 +57,15 @@ def prepare_gretl():
     portable.parent.parent.mkdir(exist_ok=True)
     with TemporaryDirectory(dir=portable.parent.parent) as temp:
         archive = Path(temp) / "gretl.zip"
-        request = Request(GRETL_URL, headers={"User-Agent": "Mozilla/5.0"})
-        with urlopen(request, timeout=60) as response, archive.open("wb") as stream:
-            shutil.copyfileobj(response, stream)
+        curl = shutil.which("curl.exe")
+        if curl:
+            subprocess.run([curl, "--fail", "--silent", "--show-error", "--location",
+                            "--retry", "2", "--connect-timeout", "15", "--max-time", "150",
+                            "--output", str(archive), GRETL_URL], check=True)
+        else:
+            request = Request(GRETL_URL, headers={"User-Agent": "Mozilla/5.0"})
+            with urlopen(request, timeout=60) as response, archive.open("wb") as stream:
+                shutil.copyfileobj(response, stream)
         with archive.open("rb") as stream:
             if hashlib.file_digest(stream, "sha256").hexdigest() != GRETL_SHA256:
                 raise RuntimeError("Контрольная сумма архива Gretl не совпала. Установите Gretl вручную.")
