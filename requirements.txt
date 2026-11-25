@@ -1,0 +1,3 @@
+-r lab4/requirements.txt
+-r lab5/requirements.txt
+-r lab6/requirements.txt

@@ -1,0 +1,12 @@
+.venv/
+.tools/
+__pycache__/
+*.py[cod]
+/lab4/lab4_histograms.png
+/lab4/lab4_boxplots.png
+/lab5/lab5_residuals.png
+/lab5/LR5_heteroskedasticity.xlsx
+/lab6/lab6_qq.png
+/lab4/lab4_output.txt
+/lab5/lab5_output.txt
+/lab6/lab6_output.txt
